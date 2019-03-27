@@ -1,0 +1,21 @@
+steps:
+- name: 'python:3.7-slim'
+  id: test
+  entrypoint: /bin/sh
+  args:
+  - -c
+  - 'pip install flask && python test_app.py -v'
+
+- name: 'gcr.io/cloud-builders/docker'
+  id: build
+  args:
+  - 'build'
+  - '-t'
+  - 'asia.gcr.io/$PROJECT_ID/hello-world:$SHORT_SHA'
+  - '.'
+
+- name: 'gcr.io/cloud-builders/docker'
+  id: push
+  args:
+  - 'push'
+  - 'asia.gcr.io/$PROJECT_ID/hello-world:$SHORT_SHA'
