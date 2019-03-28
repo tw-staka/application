@@ -28,9 +28,14 @@ steps:
   args:
   - '-c'
   - |
-    cat $_GIT_DEPLOY_KEY | base64 -d > deploy-key
-    chmod 400 deploy-key
-    GIT_SSH_COMMAND='ssh -i deploy-key' git clone git@github.com:paulvalla/tw-in-a-box-gke-application-env.git
+    gcloud kms decrypt \
+    --cipherphile git-deploy-key.enc \
+    --plaintext-file git-deploy-key \
+    --key secret-key \
+    --keyring developer-keyring \
+    --location australia-southeast1
+
+    GIT_SSH_COMMAND='ssh -i git-deploy-key' git clone git@github.com:paulvalla/tw-in-a-box-gke-application-env.git
     ls
 
 # # This step generates the new manifest
