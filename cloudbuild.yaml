@@ -36,7 +36,7 @@ steps:
     --location australia-southeast1 \
     --project ${_KMS_PROJECT_ID}
 
-    GIT_SSH_COMMAND='ssh -i git-deploy-key' git clone git@github.com:paulvalla/tw-in-a-box-gke-application-env.git
+    GIT_SSH_COMMAND='ssh -i git-deploy-key -o UserKnownHostsFile=ssh_known_hosts' git clone git@github.com:paulvalla/tw-in-a-box-gke-application-env.git
     ls
 substitutions:
     _KMS_PROJECT_ID: kms-project-stg-3c1106
