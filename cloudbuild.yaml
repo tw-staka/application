@@ -29,14 +29,17 @@ steps:
   - '-c'
   - |
     gcloud kms decrypt \
-    --ciphertext-file git-deploy-key.enc \
+    --ciphertext-file secrets/git-deploy-key.enc \
     --plaintext-file git-deploy-key \
     --key secret-key \
     --keyring developer-keyring \
     --location australia-southeast1
+    --project ${_KMS_PROJECT_ID}
 
     GIT_SSH_COMMAND='ssh -i git-deploy-key' git clone git@github.com:paulvalla/tw-in-a-box-gke-application-env.git
     ls
+substitutions:
+    _KMS_PROJECT_ID: kms-project-stg-3c1106
 
 # # This step generates the new manifest
 # - name: 'gcr.io/cloud-builders/gcloud'
