@@ -53,18 +53,17 @@ steps:
      sed "s/COMMIT_SHA/${SHORT_SHA}/g" > kubernetes.yaml
      cat kubernetes.yaml
 
-  # This step pushes the manifest back to hello-cloudbuild-env
-  - name: 'gcr.io/cloud-builders/gcloud'
-    id: Push manifest
-    entrypoint: /bin/sh
-    dir: tw-in-a-box-gke-application-env
-    args:
-    - '-c'
-    - |
-      set -x && \
-      git add kubernetes.yaml && \
-      git commit -m "Deploying image gcr.io/${PROJECT_ID}/hello-cloudbuild:${SHORT_SHA}
-      Built from commit ${COMMIT_SHA} of repository tw-in-a-box-gke-application-env" && \
-      git push origin master
+# This step pushes the manifest back to hello-cloudbuild-env
+- name: 'gcr.io/cloud-builders/gcloud'
+  id: Push manifest
+  entrypoint: /bin/sh
+  dir: tw-in-a-box-gke-application-env
+  args:
+  - '-c'
+  - |
+    git add kubernetes.yaml
+    git commit -m "Deploying image gcr.io/${PROJECT_ID}/hello-cloudbuild:${SHORT_SHA} \
+    Built from commit ${COMMIT_SHA} of repository tw-in-a-box-gke-application-env"
+    git push origin master
 substitutions:
     _KMS_PROJECT_ID: kms-project-stg-3c1106
