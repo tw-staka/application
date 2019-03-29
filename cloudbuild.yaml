@@ -29,7 +29,7 @@ steps:
   - '-c'
   - |
     gcloud kms decrypt \
-    --cipherphile git-deploy-key.enc \
+    --ciphertext-file git-deploy-key.enc \
     --plaintext-file git-deploy-key \
     --key secret-key \
     --keyring developer-keyring \
