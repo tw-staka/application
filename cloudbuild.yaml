@@ -43,15 +43,17 @@ steps:
 substitutions:
     _KMS_PROJECT_ID: kms-project-stg-3c1106
 
-# # This step generates the new manifest
-# - name: 'gcr.io/cloud-builders/gcloud'
-#   id: Generate manifest
-#   entrypoint: /bin/sh
-#   args:
-#   - '-c'
-#   - |
-#      sed "s/GOOGLE_CLOUD_PROJECT/${PROJECT_ID}/g" kubernetes.yaml.tpl | \
-#      sed "s/COMMIT_SHA/${SHORT_SHA}/g" > hello-cloudbuild-env/kubernetes.yaml
+# This step generates the new manifest
+- name: 'gcr.io/cloud-builders/gcloud'
+  id: Generate manifest
+  entrypoint: /bin/sh
+  dir: tw-in-a-box-gke-application-env
+  args:
+  - '-c'
+  - |
+     sed "s/GOOGLE_CLOUD_PROJECT/${PROJECT_ID}/g" kubernetes.yaml.tpl | \
+     sed "s/COMMIT_SHA/${SHORT_SHA}/g" > kubernetes.yaml
+     cat kubernetes.yaml
 
 # # This step pushes the manifest back to hello-cloudbuild-env
 # - name: 'gcr.io/cloud-builders/gcloud'
