@@ -62,10 +62,10 @@ steps:
   - '-c'
   - |
     git config user.email "cloudbuild@google.com"
-    git config global user.name "CloudBuild Service Account"
+    git config user.name "CloudBuild Service Account"
     git add kubernetes.yaml
     git commit -m "Deploying image gcr.io/${PROJECT_ID}/hello-cloudbuild:${SHORT_SHA} \
     Built from commit ${COMMIT_SHA} of repository tw-in-a-box-gke-application-env"
-    git push origin master
+    GIT_SSH_COMMAND='ssh -i ../git-deploy-key -o UserKnownHostsFile=../ssh_known_hosts' git push origin master
 substitutions:
     _KMS_PROJECT_ID: kms-project-stg-3c1106
