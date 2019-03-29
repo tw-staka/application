@@ -57,10 +57,10 @@ steps:
 - name: 'gcr.io/cloud-builders/gcloud'
   id: Push manifest
   entrypoint: /bin/sh
-  dir: tw-in-a-box-gke-application-env
   args:
   - '-c'
   - |
+    cd tw-in-a-box-gke-application-env
     git config user.email "cloudbuild@google.com"
     git config user.name "CloudBuild Service Account"
     git add kubernetes.yaml
