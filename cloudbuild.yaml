@@ -38,14 +38,14 @@ steps:
 
     chmod 400 git-deploy-key
 
-    GIT_SSH_COMMAND='ssh -i git-deploy-key -o UserKnownHostsFile=ssh_known_hosts' git clone git@github.com:paulvalla/tw-in-a-box-gke-application-env.git
+    GIT_SSH_COMMAND='ssh -i git-deploy-key -o UserKnownHostsFile=ssh_known_hosts' git clone git@github.com:tw-staka/gke-application-env.git
     ls
 
 # This step generates the new manifest
 - name: 'gcr.io/cloud-builders/gcloud'
   id: Generate manifest
   entrypoint: /bin/sh
-  dir: tw-in-a-box-gke-application-env
+  dir: gke-application-env
   args:
   - '-c'
   - |
@@ -60,12 +60,12 @@ steps:
   args:
   - '-c'
   - |
-    cd tw-in-a-box-gke-application-env
+    cd gke-application-env
     git config user.email "cloudbuild@google.com"
     git config user.name "CloudBuild Service Account"
     git add kubernetes.yaml
     git commit -m "Deploying image gcr.io/${PROJECT_ID}/hello-cloudbuild:${SHORT_SHA} \
-    Built from commit ${COMMIT_SHA} of repository tw-in-a-box-gke-application-env"
+    Built from commit ${COMMIT_SHA} of repository gke-application-env"
     GIT_SSH_COMMAND='ssh -i ../git-deploy-key -o UserKnownHostsFile=../ssh_known_hosts' git push origin master
 substitutions:
     _KMS_PROJECT_ID: kms-project-stg-3c1106
